@@ -161,7 +161,7 @@ class BMP180:
         X2 = self.calAC2 * B6 / math.pow(2, 11)
         X3 = X1 + X2
         B3 = (((self.calAC1 * 4 + int(X3)) << self.mode) + 2) / 4
-        X1 = self.calAC3 * B6 / math.pow(2, 13)
+        X1 = self.calAC3 * B6 / math.pow(2, 15)
         X2 = (self.calB1 * (B6 * B6 / math.pow(2, 12))) / math.pow(2, 16)
         X3 = ((X1 + X2) + 2) / math.pow(2, 2)
         B4 = self.calAC4 * (X3 + 32768) / math.pow(2,15)
@@ -184,12 +184,13 @@ class BMP180:
         altitude = 0.0
         pressure = float(self.GetPressure())
 
-        altitude = 44330.0 * (1.0 - math.pow(pressure / seaLevelPressure, 0.00019029495))
+        altitude = 44330.0 * (1.0 - math.pow(pressure / seaLevelPressure,1 / 2.225))
 
         return altitude
 
 if __name__ == "__main__":
     bmp = BMP180(0x77)
-    print(bmp.GetTemp())
-    print(bmp.GetPressure())
-    print(bmp.GetAltitude())
+    print("Temperature: ",bmp.GetTemp(), " degrees celsius" )
+    print("Pressure: ", bmp.GetPressure(), " hPa")
+    print("Altitude: ", bmp.GetAltitude(), " MSL")
+
