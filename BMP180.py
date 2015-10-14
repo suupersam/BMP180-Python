@@ -183,7 +183,7 @@ class BMP180:
         X1 = (pressure / math.pow(2, 8)) * (pressure / math.pow(2, 8))
         X1 = (X1 * 3038) / math.pow(2, 16)
         X2 = (-7357 * pressure) / math.pow(2, 16)
-        pressure = pressure + (X1 + X1 + 3791) / math.pow(2, 4)
+        pressure = pressure + (X1 + X2 + 3791) / math.pow(2, 4)
 
         return pressure
 
@@ -201,7 +201,7 @@ class BMP180:
         altitude = 0.0
         pressure = float(self.get_pressure())
 
-        altitude = 44330.0 * (1.0 - math.pow(pressure / sea_level_pressure, 0.00019029495))
+        altitude = 44330.0 * (1.0 - math.pow(pressure / sea_level_pressure,1/5.255))
 
         return altitude
 
